@@ -523,7 +523,7 @@ function GameOverModal({
             className="w-full h-14 bg-transparent text-text-secondary font-medium rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition-transform"
           >
             <Home className="w-5 h-5" />
-            Main Menu
+            Back to Profile
           </button>
         </div>
       </div>
@@ -572,7 +572,7 @@ function PauseModal({
             className="w-full h-14 bg-transparent text-text-secondary font-medium rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition-transform"
           >
             <Home className="w-5 h-5" />
-            Quit to Menu
+            Quit to Profile
           </button>
         </div>
       </div>
@@ -580,88 +580,6 @@ function PauseModal({
   );
 }
 
-/* ==================================================================
-   MENU SCREEN
-   ================================================================== */
-function MenuScreen({ onPlay, onProfile }: { onPlay: () => void; onProfile: () => void }) {
-  return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between py-8 px-6">
-      {/* Top Bar */}
-      <div className="w-full flex justify-end">
-        <button
-          onClick={onProfile}
-          className="w-12 h-12 rounded-full bg-surface border border-neon-red/30 flex items-center justify-center active:scale-90 transition-transform"
-        >
-          <User className="w-5 h-5 text-neon-red" />
-        </button>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full">
-        {/* Snake Icon Animation */}
-        <div className="relative mb-6">
-          <div className="w-24 h-24 rounded-2xl bg-neon-red/10 border border-neon-red/30 flex items-center justify-center animate-pulse-glow">
-            <div className="grid grid-cols-3 gap-1">
-              <div className="w-4 h-4 rounded-sm bg-neon-red" />
-              <div className="w-4 h-4 rounded-sm bg-neon-red" />
-              <div className="w-4 h-4 rounded-sm bg-transparent" />
-              <div className="w-4 h-4 rounded-sm bg-transparent" />
-              <div className="w-4 h-4 rounded-sm bg-neon-red" />
-              <div className="w-4 h-4 rounded-sm bg-neon-red" />
-              <div className="w-4 h-4 rounded-sm bg-neon-red" />
-              <div className="w-4 h-4 rounded-sm bg-transparent" />
-              <div className="w-4 h-4 rounded-sm bg-transparent" />
-            </div>
-          </div>
-          {/* Orbiting dots */}
-          <div className="absolute inset-0 animate-spin-slow">
-            <div className="absolute -top-1 left-1/2 w-2 h-2 rounded-full bg-neon-pink" />
-          </div>
-        </div>
-
-        {/* Title */}
-        <GlitchTitle
-          text="SNAKE"
-          className="text-6xl text-white mb-2"
-        />
-        <p className="text-neon-red text-sm font-medium tracking-[0.3em] mb-1">DEV EDITION</p>
-        <p className="text-text-secondary text-xs tracking-wider">Eat Skills. Grow Your Stack.</p>
-
-        {/* Floating skill badges */}
-        <div className="flex flex-wrap justify-center gap-2 mt-6 max-w-xs">
-          {SKILL_FOODS.slice(0, 8).map((skill, i) => (
-            <span
-              key={skill}
-              className="px-3 py-1 rounded-full text-xs font-mono border animate-fade-in"
-              style={{
-                borderColor: `${COLORS[i % COLORS.length]}40`,
-                color: COLORS[i % COLORS.length],
-                animationDelay: `${i * 0.1}s`,
-              }}
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Play Button */}
-      <div className="w-full max-w-xs">
-        <button
-          onClick={onPlay}
-          className="w-full h-16 bg-neon-red text-white font-black text-xl rounded-2xl flex items-center justify-center gap-3 glow-button active:scale-95 transition-transform tracking-wider"
-        >
-          <Play className="w-6 h-6" fill="white" />
-          PLAY
-        </button>
-
-        <p className="text-center text-text-secondary text-xs mt-4">
-          Swipe to move &middot; Eat skill tags &middot; Avoid walls
-        </p>
-      </div>
-    </div>
-  );
-}
 
 /* ==================================================================
    GAME ARENA SCREEN
@@ -797,7 +715,7 @@ function GameArenaScreen({
 /* ==================================================================
    PROFILE / RESUME SCREEN
    ================================================================== */
-function ProfileScreen({ onBack }: { onBack: () => void }) {
+function ProfileScreen({ onPlayGame }: { onPlayGame: () => void }) {
   const [activeTab, setActiveTab] = useState<'about' | 'skills' | 'exp' | 'projects'>('about');
 
   const skills = [
@@ -862,14 +780,15 @@ function ProfileScreen({ onBack }: { onBack: () => void }) {
       {/* Header */}
       <div className="sticky top-0 z-30 bg-void/90 backdrop-blur-lg border-b border-neon-red/10 px-4 py-3">
         <div className="flex items-center justify-between">
-          <button
-            onClick={onBack}
-            className="w-10 h-10 rounded-xl bg-surface border border-neon-red/20 flex items-center justify-center active:scale-90 transition-transform"
-          >
-            <ChevronLeft className="w-5 h-5 text-white" />
-          </button>
-          <h2 className="text-lg font-bold text-white tracking-wider">RESUME</h2>
           <div className="w-10" />
+          <h2 className="text-lg font-bold text-white tracking-wider">RESUME</h2>
+          <button
+            onClick={onPlayGame}
+            className="w-10 h-10 rounded-xl bg-neon-red/20 border border-neon-red/50 flex items-center justify-center active:scale-90 transition-transform"
+            title="Play Snake Game"
+          >
+            <Play className="w-5 h-5 text-neon-red" fill="currentColor" />
+          </button>
         </div>
       </div>
 
@@ -1216,11 +1135,9 @@ function AboutScreen({ onBack }: { onBack: () => void }) {
    MAIN APP
    ================================================================== */
 function App() {
-  const [screen, setScreen] = useState<Screen>('menu');
-  const [prevScreen, setPrevScreen] = useState<Screen>('menu');
+  const [screen, setScreen] = useState<Screen>('profile');
 
   const navigate = (target: Screen) => {
-    setPrevScreen(screen);
     setScreen(target);
   };
 
@@ -1234,26 +1151,19 @@ function App() {
 
       {/* Main Content */}
       <div className="relative z-10 w-full h-full">
-        {screen === 'menu' && (
-          <MenuScreen
-            onPlay={() => navigate('game')}
-            onProfile={() => navigate('profile')}
-          />
-        )}
-
         {screen === 'game' && (
           <GameArenaScreen
-            onHome={() => navigate('menu')}
+            onHome={() => navigate('profile')}
             onProfile={() => navigate('profile')}
           />
         )}
 
         {screen === 'profile' && (
-          <ProfileScreen onBack={() => navigate(prevScreen === 'game' ? 'game' : 'menu')} />
+          <ProfileScreen onPlayGame={() => navigate('game')} />
         )}
 
         {screen === 'about' && (
-          <AboutScreen onBack={() => navigate('menu')} />
+          <AboutScreen onBack={() => navigate('profile')} />
         )}
       </div>
     </div>
