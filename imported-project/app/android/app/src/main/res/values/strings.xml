@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">KimiAgent</string>
+    <string name="title_activity_main">KimiAgent</string>
+    <string name="package_name">com.kimi.agent</string>
+    <string name="custom_url_scheme">com.kimi.agent</string>
+</resources>
