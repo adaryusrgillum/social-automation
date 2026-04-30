@@ -680,7 +680,7 @@ function GameArenaScreen({
   });
   const [gameState, setGameState] = useState<GameState>('playing');
   const [finalScore, setFinalScore] = useState(0);
-  const gameKeyRef = useRef(0);
+  const [gameKey, setGameKey] = useState(0);
 
   const handleGameOver = useCallback((final: number) => {
     setFinalScore(final);
@@ -691,7 +691,7 @@ function GameArenaScreen({
   }, [highScore]);
 
   const handleRetry = () => {
-    gameKeyRef.current += 1;
+    setGameKey(k => k + 1);
     setScore(0);
     setGameState('playing');
   };
@@ -702,7 +702,7 @@ function GameArenaScreen({
 
   const handleResume = () => {
     setGameState('playing');
-    gameKeyRef.current += 1;
+    setGameKey(k => k + 1);
   };
 
   return (
@@ -740,7 +740,7 @@ function GameArenaScreen({
       <div className="flex-1 flex items-center justify-center w-full">
         {gameState === 'playing' && (
           <SnakeGame
-            key={gameKeyRef.current}
+            key={gameKey}
             onGameOver={handleGameOver}
             onScoreChange={setScore}
           />
