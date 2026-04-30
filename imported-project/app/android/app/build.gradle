@@ -22,6 +22,8 @@ android {
             storePassword "password123"
             keyAlias "my-key-alias"
             keyPassword "password123"
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
     }
     buildTypes {
